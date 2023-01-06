@@ -1,0 +1,26 @@
+
+FitnessFunction = @(x) vectorized_multiobjective(x);
+nvars = 4;
+lb = [1;1;1;1];
+ub = [4;4;4 ;4];
+
+rng default % for reproducibility
+ ConstraintFunction = @simple_constraint;
+ A = [];
+b = [];
+Aeq = [];
+beq = [];
+nonlcon = [];
+intcon = [1,2,3,4];
+
+
+populationSize = 50;
+stallGenLimit = 200;
+generations = 100;
+options = gaoptimset('PopulationSize',populationSize,...
+    'PopInitRange',Bound, 'StallGenLimit', stallGenLimit,...
+    'Generations', generations);
+
+ optimoptions('gamultiobj','PlotFcn',@gaplotpareto)
+%   [x,fval] = gamultiobj(FitnessFunction,nvars,A,b,Aeq,beq,lb,ub,nonlcon,intcon,options);
+  [x,fval] = ga(FitnessFunction,nvars,A,b,Aeq,beq,lb,ub,nonlcon,intcon,options);
